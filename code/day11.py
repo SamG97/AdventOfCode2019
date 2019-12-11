@@ -1,4 +1,8 @@
-def execute(program):
+from collections import defaultdict
+import numpy as np
+from matplotlib import pyplot as plt
+
+def execute(program, inputs, pc=0, relative_base=0):
     def read_addr(addr):
         while addr > len(program) - 1:
             program.append(0)
@@ -9,8 +13,6 @@ def execute(program):
             program.append(0)
         program[addr] = value
 
-    pc = 0
-    relative_base = 0
     while True:
         instruction = [c for c in str(program[pc])]
         while len(instruction) < 5:
@@ -18,7 +20,7 @@ def execute(program):
         opcode = int(instruction[-2] + instruction[-1])
 
         if opcode == 99:
-            return program
+            return "HALT", pc, relative_base
 
         immediate_1 = int(instruction[2])
         immediate_2 = int(instruction[1])
@@ -50,10 +52,10 @@ def execute(program):
                 addr = relative_base + read_addr(pc + 1)
             else:
                 addr = read_addr(pc + 1)
-            indata = int(input("> "))
+            indata = inputs.pop(0)
             write_addr(addr, indata)
         elif opcode == 4:  # Output
-            print(left)
+            return left, pc + 2, relative_base
         elif opcode == 5:  # Branch if true
             if left != 0:
                 pc = right
@@ -78,8 +80,48 @@ def execute(program):
         elif opcode in [3, 4, 9]:
             pc += 2
 
+
 if __name__ == "__main__":
-    with open("../input/day9.txt") as f:
+    with open("../input/day11.txt") as f:
         program_text = f.readline()
     program = [int(val) for val in program_text.split(",")]
-    execute(program)
+    grid = defaultdict(lambda: ".")
+    pos = (0, 0)
+    grid[pos] = "#"
+    direction = 0
+    pc = 0
+    rb = 0
+    while True:
+        current_val = 1 if grid[pos] == "#" else 0
+        colour, pc, rb = execute(program, [current_val], pc, rb)
+        grid[pos] = "#" if colour else "."
+        turn, pc, rb = execute(program, [], pc, rb)
+        if turn == 0:
+            direction = (direction - 1) % 4
+        elif turn == 1:
+            direction = (direction + 1) % 4
+        elif turn == "HALT":
+            break
+        else:
+            raise ValueError(f"Unknown direction {turn}")
+        
+        if direction == 0:
+            pos = (pos[0], pos[1] - 1)
+        elif direction == 1:
+            pos = (pos[0] + 1, pos[1])
+        elif direction == 2:
+            pos = (pos[0], pos[1] + 1)
+        else:
+            pos = (pos[0] - 1, pos[1])
+    xs, ys = zip(*grid.keys())
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+
+    data = np.zeros((max_y - min_y + 1, max_x - min_x + 1, 3), dtype=np.uint8)
+    for i, y in enumerate(range(min(ys), max(ys) + 1)):
+        for j, x in enumerate(range(min(xs), max(xs) + 1)):
+            if grid[(x, y)] == "#":
+                data[i, j] = [255] * 3
+    plt.imshow(data, interpolation='nearest')
+    plt.show()
+    
