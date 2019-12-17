@@ -95,7 +95,7 @@ def reduce_instructions(instructions):
         return errors
 
     full_string = ",".join(instructions)
-    candidates = {}
+    substrings = []
     for start in range(0, len(instructions) - 4, 2):
         for end in range(start + 4, min(start + 10, len(instructions)), 2):
             string = ",".join(instructions[start:end])
@@ -103,8 +103,7 @@ def reduce_instructions(instructions):
                 continue
             cnt = full_string.count(string)
             if cnt > 1:
-                candidates[string] = cnt
-    substrings = list(candidates.keys())
+                substrings.append(string)
     for a, b, c in itertools.combinations(substrings, 3):
         if count_errors(a, b, c) == 0:
             return reduce_string(a, b, c), a, b, c, "N"
