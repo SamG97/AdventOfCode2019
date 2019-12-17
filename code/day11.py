@@ -2,6 +2,7 @@ from collections import defaultdict
 import numpy as np
 from matplotlib import pyplot as plt
 
+
 def execute(program, inputs, pc=0, relative_base=0):
     def read_addr(addr):
         while addr > len(program) - 1:
@@ -52,7 +53,7 @@ def execute(program, inputs, pc=0, relative_base=0):
                 addr = relative_base + read_addr(pc + 1)
             else:
                 addr = read_addr(pc + 1)
-            indata = inputs.pop(0)
+            indata = next(inputs)
             write_addr(addr, indata)
         elif opcode == 4:  # Output
             return left, pc + 2, relative_base
