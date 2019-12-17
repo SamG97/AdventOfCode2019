@@ -48,7 +48,7 @@ def find_max_fuel(available_ore, reactions):
             reactions, "FUEL", fuel, defaultdict(lambda: 0))
 
     lower_bound = math.floor(available_ore / check_ore_needed(1))
-    upper_bound = lower_bound
+    upper_bound = lower_bound * 2
     while check_ore_needed(upper_bound) < available_ore:
         upper_bound *= 2
 
