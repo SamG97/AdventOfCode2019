@@ -14,6 +14,9 @@ def execute(program, inputs, pc=0, relative_base=0):
             program.append(0)
         program[addr] = value
 
+    if type(inputs) in [list, tuple]:
+        inputs = iter(inputs)
+
     while True:
         instruction = [c for c in str(program[pc])]
         while len(instruction) < 5:
