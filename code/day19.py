@@ -14,6 +14,7 @@ def count_pulls(program):
         if y < 5:
             # Special case deals with 1 width beam moving >1 space between rows
             seen_beam = False
+            x = 0
             for x in range(10):
                 right_val, _, _ = execute(program[:], [x, y])
                 if right_val:
@@ -45,6 +46,7 @@ def find_box(program, box_size):
         if y < 5:
             # Special case deals with 1 width beam moving >1 space between rows
             seen_beam = False
+            x = 0
             for x in range(10):
                 right_val, _, _ = execute(program[:], [x, y])
                 if right_val:
@@ -59,7 +61,7 @@ def find_box(program, box_size):
                     right += 1
         ends.append(right)
         if (
-            right - left >= box_size and \
+            right - left >= box_size and
                 ends[y + 1 - box_size] > left + box_size - 1
         ):
             return left * 10000 + y + 1 - box_size
@@ -69,6 +71,6 @@ def find_box(program, box_size):
 if __name__ == "__main__":
     with open("../input/day19.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    print(count_pulls(program))
-    print(find_box(program, 100))
+    p = [int(val) for val in program_text.split(",")]
+    print(count_pulls(p))
+    print(find_box(p, 100))

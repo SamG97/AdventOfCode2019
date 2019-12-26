@@ -55,8 +55,9 @@ def execute(program):
         elif opcode == 3 or opcode == 4:
             pc += 2
 
+
 if __name__ == "__main__":
-    with open("../input/day5.txt") as f:
+    with open("../input/day05.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    execute(program)
+    p = [int(val) for val in program_text.split(",")]
+    execute(p)

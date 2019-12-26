@@ -16,6 +16,7 @@ def calc_fuel_adv(weight):
             fuel_sum += val
             rec_calc = val
 
+
 if __name__ == "__main__":
-    with open("../input/day1.txt") as f:
+    with open("../input/day01.txt") as f:
         print(sum([calc_fuel_adv(int(line)) for line in f]))

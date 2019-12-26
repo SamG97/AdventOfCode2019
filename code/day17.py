@@ -40,15 +40,15 @@ def find_alignment_sum(grid):
     return total
 
 
-directions = [
+directions = (
     np.array([0, -1]), np.array([1, 0]), np.array([0, 1]), np.array([-1, 0])
-]
+)
 
 
 def find_path(grid):
-    def get_elem(p):
-        if 0 <= p[0] < x_max and 0 <= p[1] < y_max:
-            return grid[p[0], p[1]]
+    def get_elem(coords):
+        if 0 <= coords[0] < x_max and 0 <= coords[1] < y_max:
+            return grid[coords[0], coords[1]]
         else:
             return "."
 
@@ -80,14 +80,14 @@ def find_path(grid):
 
 
 def reduce_instructions(instructions):
-    def reduce_string(a, b, c):
-        replaced_string = full_string.replace(a, "A")
-        replaced_string = replaced_string.replace(b, "B")
-        replaced_string = replaced_string.replace(c, "C")
+    def reduce_string(fst, snd, thrd):
+        replaced_string = full_string.replace(fst, "A")
+        replaced_string = replaced_string.replace(snd, "B")
+        replaced_string = replaced_string.replace(thrd, "C")
         return replaced_string
 
-    def count_errors(a, b, c):
-        replaced_string = reduce_string(a, b, c)
+    def count_errors(fst, snd, thrd):
+        replaced_string = reduce_string(fst, snd, thrd)
         errors = 0
         for char in replaced_string:
             if char not in ["A", "B", "C", ","]:
@@ -109,9 +109,9 @@ def reduce_instructions(instructions):
             return reduce_string(a, b, c), a, b, c, "N"
 
 
-def rescue_bots(program, instrs):
+def rescue_bots(program, instructions):
     program[0] = 2
-    cmds = iter([ord(c) for p in instrs for c in p + "\n"])
+    cmds = iter([ord(c) for p in instructions for c in p + "\n"])
     idx = pc = rb = out = 0
     while out < 128:
         idx += 1
@@ -122,8 +122,8 @@ def rescue_bots(program, instrs):
 if __name__ == "__main__":
     with open("../input/day17.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    g = render_grid(program[:])
+    p = [int(val) for val in program_text.split(",")]
+    g = render_grid(p[:])
     path = find_path(g)
-    instructions = reduce_instructions(path)
-    print(rescue_bots(program, instructions))
+    instrs = reduce_instructions(path)
+    print(rescue_bots(p, instrs))

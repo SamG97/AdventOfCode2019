@@ -1,13 +1,13 @@
 def execute(program):
-    def read_addr(addr):
-        while addr > len(program) - 1:
+    def read_addr(a):
+        while a > len(program) - 1:
             program.append(0)
-        return program[addr]
+        return program[a]
 
-    def write_addr(addr, value):
-        while addr > len(program) - 1:
+    def write_addr(a, value):
+        while a > len(program) - 1:
             program.append(0)
-        program[addr] = value
+        program[a] = value
 
     pc = 0
     relative_base = 0
@@ -30,7 +30,7 @@ def execute(program):
             left = read_addr(relative_base + read_addr(pc + 1))
         else:
             left = read_addr(read_addr(pc + 1))
-        if not opcode in [3, 4, 9]:
+        if opcode not in [3, 4, 9]:
             if immediate_2 == 1:
                 right = read_addr(pc + 2)
             elif immediate_2 == 2:
@@ -78,8 +78,9 @@ def execute(program):
         elif opcode in [3, 4, 9]:
             pc += 2
 
+
 if __name__ == "__main__":
-    with open("../input/day9.txt") as f:
+    with open("../input/day09.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    execute(program)
+    p = [int(val) for val in program_text.split(",")]
+    execute(p)

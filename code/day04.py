@@ -18,5 +18,6 @@ def count_candidates(min_val, max_val):
             count += 1
     return count
 
+
 if __name__ == "__main__":
     print(count_candidates(234208, 765869))

@@ -16,16 +16,16 @@ def execute(program):
         
         pc += 4
 
+
 if __name__ == "__main__":
-    with open("../input/day2.txt") as f:
+    with open("../input/day02.txt") as f:
         program_text = f.readline()
     for noun in range(100):
         for verb in range(100):
-            program = [int(val) for val in program_text.split(",")]
-            program[1] = noun
-            program[2] = verb
-            res = execute(program)[0]
+            p = [int(val) for val in program_text.split(",")]
+            p[1] = noun
+            p[2] = verb
+            res = execute(p)[0]
             if res == 19690720:
-                print(noun, verb)
                 print(noun * 100 + verb)
                 exit(0)

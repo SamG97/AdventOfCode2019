@@ -1,5 +1,4 @@
 import heapq
-import itertools
 import numpy as np
 from collections import defaultdict
 
@@ -9,9 +8,9 @@ def import_grid(data):
     return np.array(grid).transpose((1, 0))
 
 
-moves = [
+moves = (
     np.array([0, 1]), np.array([0, -1]), np.array([-1, 0]), np.array([1, 0])
-]
+)
 
 
 def find_shortest_paths(grid, root, robot_symbols):

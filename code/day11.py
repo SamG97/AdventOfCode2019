@@ -4,15 +4,15 @@ from matplotlib import pyplot as plt
 
 
 def execute(program, inputs, pc=0, relative_base=0):
-    def read_addr(addr):
-        while addr > len(program) - 1:
+    def read_addr(a):
+        while a > len(program) - 1:
             program.append(0)
-        return program[addr]
+        return program[a]
 
-    def write_addr(addr, value):
-        while addr > len(program) - 1:
+    def write_addr(a, value):
+        while a > len(program) - 1:
             program.append(0)
-        program[addr] = value
+        program[a] = value
 
     if type(inputs) in [list, tuple]:
         inputs = iter(inputs)
@@ -36,7 +36,7 @@ def execute(program, inputs, pc=0, relative_base=0):
             left = read_addr(relative_base + read_addr(pc + 1))
         else:
             left = read_addr(read_addr(pc + 1))
-        if not opcode in [3, 4, 9]:
+        if opcode not in [3, 4, 9]:
             if immediate_2 == 1:
                 right = read_addr(pc + 2)
             elif immediate_2 == 2:
@@ -88,18 +88,18 @@ def execute(program, inputs, pc=0, relative_base=0):
 if __name__ == "__main__":
     with open("../input/day11.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
+    p = [int(val) for val in program_text.split(",")]
     grid = defaultdict(lambda: ".")
     pos = (0, 0)
     grid[pos] = "#"
     direction = 0
-    pc = 0
+    idx = 0
     rb = 0
     while True:
         current_val = 1 if grid[pos] == "#" else 0
-        colour, pc, rb = execute(program, [current_val], pc, rb)
+        colour, idx, rb = execute(p, [current_val], idx, rb)
         grid[pos] = "#" if colour else "."
-        turn, pc, rb = execute(program, [], pc, rb)
+        turn, idx, rb = execute(p, [], idx, rb)
         if turn == 0:
             direction = (direction - 1) % 4
         elif turn == 1:
@@ -128,4 +128,3 @@ if __name__ == "__main__":
                 data[i, j] = [255] * 3
     plt.imshow(data, interpolation='nearest')
     plt.show()
-    

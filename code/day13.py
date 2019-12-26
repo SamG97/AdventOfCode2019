@@ -20,6 +20,7 @@ def play_game(program):
     val = pc = rb = 0
     screen = np.zeros((38, 22), dtype=np.int8)
     output = []
+    last_score = 0
     while val != "HALT":
         ball_pos = np.argwhere(screen == 4)
         paddle_pos = np.argwhere(screen == 3)
@@ -38,13 +39,15 @@ def play_game(program):
         output.append(val)
         if len(output) == 3:
             if output[0] == -1 and output[1] == 0:
-                print(f"> {output[2]}")
+                last_score = output[2]
             screen[output[0], output[1]] = output[2]
             output = []
+    print(last_score)
+
 
 if __name__ == "__main__":
     with open("../input/day13.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    program[0] = 2
-    play_game(program)
+    p = [int(val) for val in program_text.split(",")]
+    p[0] = 2
+    play_game(p)

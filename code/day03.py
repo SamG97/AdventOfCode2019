@@ -23,7 +23,7 @@ def plot_wire(wire):
                 raise RuntimeError(f"Unknown direction {direction}")
             count += 1
             visited.add(pos)
-            if not pos in step_count:
+            if pos not in step_count:
                 step_count[pos] = count
     return visited, step_count
 
@@ -31,9 +31,9 @@ def plot_wire(wire):
 if __name__ == "__main__":
     collisions = None
     counts = []
-    with open("../input/day3.txt") as f:
-        for wire in f:
-            visits, steps = plot_wire(wire.strip("\n"))
+    with open("../input/day03.txt") as f:
+        for w in f:
+            visits, steps = plot_wire(w.strip("\n"))
             counts.append(steps)
             if collisions:
                 collisions = collisions.intersection(visits)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     min_dist = sys.maxsize
     for point in collisions:
         dist = 0
-        for count in counts:
-            dist += count[point]
+        for cnt in counts:
+            dist += cnt[point]
         min_dist = min(dist, min_dist)
     print(min_dist)

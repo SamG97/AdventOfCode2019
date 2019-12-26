@@ -12,9 +12,9 @@ directions = {
 
 
 def create_map(program):
-    def add_candidates(l, pos, state, pc, rb, steps):
+    def add_candidates(l, pos, state, c, r, cnt):
         for cmd, move in directions.items():
-            l.append((pos + move, cmd, state[:], pc, rb, steps + 1))
+            l.append((pos + move, cmd, state[:], c, r, cnt + 1))
 
     explored_nodes = defaultdict(lambda: -1)
     oxygen_location = None
@@ -56,7 +56,7 @@ def fill_oxygen(locations, oxygen_location):
 if __name__ == "__main__":
     with open("../input/day15.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    o_loc, o_steps, nodes = create_map(program)
+    p = [int(val) for val in program_text.split(",")]
+    o_loc, o_steps, nodes = create_map(p)
     print(o_steps)
     print(fill_oxygen(nodes, o_loc))

@@ -38,12 +38,12 @@ def machine(program, egress):
 if __name__ == "__main__":
     with open("../input/day23.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
+    p = [int(val) for val in program_text.split(",")]
     egress_queue = Queue()
     ingress_queues = [Queue() for _ in range(50)]
     SHOULD_STOP = False
     with ThreadPoolExecutor(max_workers=50) as executer:
-        executer.map(machine(program, egress_queue), range(50), ingress_queues)
+        executer.map(machine(p, egress_queue), range(50), ingress_queues)
         last_sent = nat = (None, None)
         while True:
             if egress_queue.empty() and all(q.empty() for q in ingress_queues):

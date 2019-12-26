@@ -57,23 +57,25 @@ def execute(program, inputs, pc=0):
 
 
 if __name__ == "__main__":
-    with open("../input/day7.txt") as f:
+    with open("../input/day07.txt") as f:
         program_text = f.readline()
 
     max_output = 0
     for phases in itertools.permutations(list(range(5, 10))):
-        programs = [[int(val) for val in program_text.split(",")] for _ in range(5)]
+        programs = [
+            [int(val) for val in program_text.split(",")] for _ in range(5)
+        ]
         pcs = [0] * 5
         first_iter = True
         output = 0
         final_output = 0
         while True:
-            for i, (program, phase) in enumerate(zip(programs, phases)):
+            for i, (p, phase) in enumerate(zip(programs, phases)):
                 if first_iter:
-                    output, pc = execute(program, [phase, output], pc=pcs[i])
+                    output, pc_out = execute(p, [phase, output], pc=pcs[i])
                 else:
-                    output, pc = execute(program, [output], pc=pcs[i])
-                pcs[i] = pc
+                    output, pc_out = execute(p, [output], pc=pcs[i])
+                pcs[i] = pc_out
             first_iter = False
             if output == "HALT":
                 break

@@ -176,10 +176,10 @@ class RecursiveGameOfLife:
 
 if __name__ == "__main__":
     with open("../input/day24.txt") as f:
-        grid = [[1 if c == "#" else 0 for c in l.strip("\n")] for l in f]
+        g = [[1 if c == "#" else 0 for c in l.strip("\n")] for l in f]
 
     # Part 1
-    game = GameOfLife(grid)
+    game = GameOfLife(g)
     seen = set()
     seen.add(game.board)
     while True:
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     print(f"First score seen twice: {score}")
 
     # Part 2
-    game = RecursiveGameOfLife(grid)
+    game = RecursiveGameOfLife(g)
     for _ in range(200):
         game = game.update_board()
     print(f"Recursive count after 200 mins: {game.count_bugs()}")

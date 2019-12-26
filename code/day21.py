@@ -40,5 +40,5 @@ def run(program):
 if __name__ == "__main__":
     with open("../input/day21.txt") as f:
         program_text = f.readline()
-    program = [int(val) for val in program_text.split(",")]
-    run(program)
+    p = [int(val) for val in program_text.split(",")]
+    run(p)

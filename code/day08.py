@@ -54,5 +54,5 @@ def print_image(image, width, height):
 
 
 if __name__ == "__main__":
-    with open("../input/day8.txt") as f:
+    with open("../input/day08.txt") as f:
         print_image(render_image(f.readline().strip("\n"), 25, 6), 25, 6)

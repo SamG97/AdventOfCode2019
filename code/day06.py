@@ -40,6 +40,7 @@ def find_path(planets):
 
     you_path = search("YOU")
     santa_path = search("SAN")
+    same = 0
     for same in range(min(len(you_path), len(santa_path))):
         if you_path[same] != santa_path[same]:
             break
@@ -47,6 +48,6 @@ def find_path(planets):
 
 
 if __name__ == "__main__":
-    with open("../input/day6.txt") as f:
-        planets = create_orbits(f)
-    print(find_path(planets))
+    with open("../input/day06.txt") as f:
+        p = create_orbits(f)
+    print(find_path(p))
